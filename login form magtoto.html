@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Programming EDU - Login</title>
+
+</head>
+<body>
+    <div class="overlay"></div>
+
+    <div class="header">Programming EDU</div>
+
+    <div class="login-container">
+            <h2>Login Here</h3>
+            <div class="error-message" id="error-message"></div>
+            <form id="login-form"onsubmit="return validateLogin(event)">
+                <label for="username">Username</label>
+                <input type="text" id="username" placeholder="Username" required>
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Password" required>
+                <button type="submit" id="login-button">Log in</button>
+                <div id="cooldown-timer" class="timer"></div>
+                <div class="social">
+                    <div class="go"><i class="fab fa-google"></i>  Google</div>
+                    <div class="fb"><i class="fab fa-facebook"></i>  Facebook</div>
+                  
+                  </form>
+                </div>
+
+                <script>
+                    let loginAttempts = 0;
+                    let cooldownTime = 10;
+            
+                    const correctUsername = "user";
+                    const correctPassword = "password"
+            
+                    function validateLogin(event) {
+                        event.preventDefault();
+            
+                        const username = document.getElementById("username").value;
+                        const password = document.getElementById("password").value;
+            
+                        if (username === correctUsername && password === correctPassword) {
+                            alert("Login successfull");
+                            document.getElementById("error-message").textContent = "";
+                            window.location.href = "Home Page.html";
+                            <a href="Home Page.html" class="active">Home</a>
+                            return;
+                        }
+                        loginAttempts++;
+            
+                        if (loginAttempts >= 1) {
+                            disableLoginButton(true);
+                            startCooldown();
+                        } else {
+                            document.getElementById("error-message").textContent = "incorrect username or password.";
+                        }
+                    }
+            
+                    function disableLoginButton(isDisabled) {
+                        const loginButton = document.getElementById("login-button");
+                        const  cooldownTimer = document.getElementById("cooldown-timer");
+            
+                        loginButton.disabled = isDisabled;
+                        cooldownTimer.textContent = isDisabled ? `Please wait ${cooldownTime} seconds.
+                        ` : "";
+                    }
+            
+                    function startCooldown() {
+                        let cooldownInterval = setInterval(function () {
+                            if (cooldownTime > 0) {
+                                cooldownTime--;
+                                document.getElementById("cooldown-timer").textContent = `Please wait $ 
+                                {cooldownTime} seconds.`;
+                            } else {
+                                clearInterval(cooldownInterval);
+                                resetLogin();
+                            }
+                        }, 1000);
+                    }
+            
+                    function resetLogin() {
+                        loginAttempts = 0;
+                        cooldownTime = 10;
+                        disableLoginButton(false);
+                        document.getElementById("error-message").textContent = "";
+                    }
+                </script>
+            
+                
+</body>
+</html>
